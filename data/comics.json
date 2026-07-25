@@ -7,5 +7,14 @@
     "genres": ["Zombies", "Splatter"],
 	"pages": 46,
     "available": true
+  },
+  {
+    "id": 2,
+    "title": "Cemetary Daily",
+    "author": "Christian Zahnleiter",
+    "year": 2026,
+    "genres": ["Dark Humor"],
+	"pages": 7,
+    "available": true
   }
 ]
