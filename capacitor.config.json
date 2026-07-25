@@ -1,0 +1,13 @@
+{
+  "appId": "com.mrcerealguy.comicapp",
+  "appName": "Comic-App",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "url": "https://mrcerealguy.github.io/Comic-App/",
+    "cleartext": false
+  },
+  "android": {
+    "backgroundColor": "#0d0d0d"
+  }
+}

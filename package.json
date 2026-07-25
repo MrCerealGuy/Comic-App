@@ -1,0 +1,23 @@
+{
+  "name": "comic-app",
+  "version": "1.0.0",
+  "description": "Comic App - Web + Android",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 8080 -c-1",
+    "build:www": "node scripts/build-www.js",
+    "cap:sync": "npm run build:www && npx cap sync",
+    "cap:add": "npm run build:www && npx cap add android",
+    "cap:open": "npx cap open android"
+  },
+  "keywords": ["comic", "android", "capacitor"],
+  "author": "Christian Zahnleiter",
+  "license": "MIT",
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0"
+  }
+}
