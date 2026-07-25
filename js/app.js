@@ -21,7 +21,7 @@
 
       grid.innerHTML = comics.map(c => `
         <a class="comic-card" href="reader.html?comic=${c.id}">
-          <img src="data/comic_${c.id}/front.png" alt="${esc(c.title)}" loading="lazy">
+          <img src="data/comic_${c.id}/front.jpg" alt="${esc(c.title)}" loading="lazy">
           <div class="info">
             <h2>${esc(c.title)}</h2>
             <div class="meta">${esc(c.author)} &middot; ${c.year}</div>
@@ -63,17 +63,13 @@
 
     // Build page list: [front, page_1..page_N, back]
     const base = `data/comic_${comicId}`;
-    const exts = ['png', 'jpg', 'jpeg', 'webp'];
-    function pagePath(num, ext) { return `${base}/page_${String(num).padStart(3, '0')}.${ext}`; }
-    function assetPath(name, ext) { return `${base}/${name}.${ext}`; }
 
     const pages = [];
-    pages.push({ src: assetPath('front', 'png'), fallbacks: [assetPath('front', 'jpg')], label: 'Cover' });
+    pages.push({ src: `${base}/front.jpg`, label: 'Cover' });
     for (let i = 1; i <= comic.pages; i++) {
-      const fallbacks = exts.slice(1).map(e => pagePath(i, e));
-      pages.push({ src: pagePath(i, 'png'), fallbacks, label: `Seite ${i}` });
+      pages.push({ src: `${base}/page_${String(i).padStart(3, '0')}.jpg`, label: `Seite ${i}` });
     }
-    pages.push({ src: assetPath('back', 'png'), fallbacks: [assetPath('back', 'jpg')], label: 'Back' });
+    pages.push({ src: `${base}/back.jpg`, label: 'Back' });
 
     let current = 0;
     let uiTimeout = null;
@@ -113,33 +109,22 @@
       imgEl.classList.add('loading');
       spinner.style.display = '';
 
-      const page = pages[current];
-      tryLoad(page.src, page.fallbacks || [], function (src) {
-        imgEl.src = src;
+      const pageSrc = pages[current].src;
+      const preloader = new Image();
+      preloader.onload = function () {
+        imgEl.src = pageSrc;
         imgEl.classList.remove('loading');
         spinner.style.display = 'none';
-      }, function () {
+      };
+      preloader.onerror = function () {
         imgEl.classList.remove('loading');
         spinner.style.display = 'none';
         imgEl.alt = 'Seite konnte nicht geladen werden';
-      });
+      };
+      preloader.src = pageSrc;
 
       updateUI();
       showUI();
-    }
-
-    function tryLoad(src, fallbacks, onSuccess, onError) {
-      const preloader = new Image();
-      preloader.onload = function () { onSuccess(src); };
-      preloader.onerror = function () {
-        if (fallbacks.length > 0) {
-          const next = fallbacks.shift();
-          tryLoad(next, fallbacks, onSuccess, onError);
-        } else {
-          onError();
-        }
-      };
-      preloader.src = src;
     }
 
     // Navigation
