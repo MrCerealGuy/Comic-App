@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "title": "Monnem Expendables",
+    "author": "Christian Zahnleiter",
+    "year": 2026,
+    "genres": ["Zombies", "Splatter"],
+	"pages": 46,
+    "available": true
+  }
+]
