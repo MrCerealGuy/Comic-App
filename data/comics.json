@@ -14,7 +14,16 @@
     "author": "Christian Zahnleiter",
     "year": 2026,
     "genres": ["Dark Humor"],
-	"pages": 7,
+	"pages": 10,
+    "available": true
+  },
+  {
+    "id": 3,
+    "title": "Jenseits der Stille",
+    "author": "Christian Zahnleiter",
+    "year": 2026,
+    "genres": ["Nachdenklich"],
+	"pages": 10,
     "available": true
   }
 ]
