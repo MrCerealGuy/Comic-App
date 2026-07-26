@@ -15,11 +15,16 @@
 }
 
 html, body {
-  height: 100%;
+  height: 100dvh;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -32,6 +37,7 @@ a {
 .app-header {
   padding: 20px 16px 12px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .app-header h1 {
@@ -47,6 +53,9 @@ a {
   padding: 8px 16px 32px;
   max-width: 960px;
   margin: 0 auto;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .comic-card {
@@ -305,5 +314,33 @@ a {
 @media (min-width: 900px) {
   .comic-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (orientation: landscape) {
+  .app-header {
+    padding: 10px 16px 6px;
+  }
+
+  .app-header h1 {
+    font-size: 1.2rem;
+  }
+
+  .comic-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 4px 16px 16px;
+  }
+
+  .comic-card .info {
+    padding: 6px 8px;
+  }
+
+  .comic-card .info h2 {
+    font-size: 0.8rem;
+  }
+
+  .comic-card .info .genres {
+    display: none;
   }
 }

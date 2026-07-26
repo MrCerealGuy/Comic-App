@@ -10,14 +10,18 @@
     "cap:add": "npm run build:www && npx cap add android",
     "cap:open": "npx cap open android"
   },
-  "keywords": ["comic", "android", "capacitor"],
+  "keywords": [
+    "comic",
+    "android",
+    "capacitor"
+  ],
   "author": "Christian Zahnleiter",
   "license": "MIT",
   "devDependencies": {
-    "@capacitor/cli": "^6.0.0"
+    "@capacitor/cli": "^8.4.2"
   },
   "dependencies": {
-    "@capacitor/core": "^6.0.0",
-    "@capacitor/android": "^6.0.0"
+    "@capacitor/android": "^8.4.2",
+    "@capacitor/core": "^8.4.2"
   }
 }
