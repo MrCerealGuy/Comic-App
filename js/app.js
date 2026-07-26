@@ -77,7 +77,34 @@
     } catch (_) {}
 
     let current = 0;
+    let animating = false;
     let uiTimeout = null;
+    let audioCtx = null;
+
+    function playPageSound() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const dur = 0.07;
+        const len = Math.floor(audioCtx.sampleRate * dur);
+        const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 4);
+        }
+        const src = audioCtx.createBufferSource();
+        src.buffer = buf;
+        const filt = audioCtx.createBiquadFilter();
+        filt.type = 'bandpass';
+        filt.frequency.value = 2500;
+        filt.Q.value = 0.7;
+        const gain = audioCtx.createGain();
+        gain.gain.value = 0.25;
+        src.connect(filt);
+        filt.connect(gain);
+        gain.connect(audioCtx.destination);
+        src.start();
+      } catch (_) {}
+    }
 
     const imgEl = document.getElementById('reader-img');
     const counterEl = document.getElementById('reader-counter');
@@ -108,12 +135,49 @@
       }, 3000);
     }
 
-    function loadPage(index) {
-      if (index < 0 || index >= pages.length) return;
-      current = index;
-      imgEl.classList.add('loading');
-      spinner.style.display = '';
+    function loadPage(index, direction) {
+      if (index < 0 || index >= pages.length || animating) return;
 
+      const isFirstLoad = imgEl.getAttribute('src') === '' || imgEl.getAttribute('src') === undefined;
+      current = index;
+
+      if (isFirstLoad) {
+        directLoad();
+        return;
+      }
+
+      animating = true;
+      const dir = direction || 'next';
+      playPageSound();
+
+      imgEl.classList.remove('loading');
+      imgEl.classList.add('slide-out-' + dir);
+
+      setTimeout(() => {
+        const pageSrc = pages[current].src;
+        const preloader = new Image();
+        preloader.onload = function () {
+          imgEl.src = pageSrc;
+          imgEl.classList.remove('slide-out-' + dir);
+          imgEl.classList.add('slide-in-' + dir);
+          void imgEl.offsetHeight;
+          imgEl.classList.remove('slide-in-' + dir);
+          setTimeout(() => { animating = false; }, 250);
+          spinner.style.display = 'none';
+        };
+        preloader.onerror = function () {
+          imgEl.classList.remove('slide-out-' + dir);
+          imgEl.alt = 'Seite konnte nicht geladen werden';
+          spinner.style.display = 'none';
+          animating = false;
+        };
+        preloader.src = pageSrc;
+        updateUI();
+        showUI();
+      }, 150);
+    }
+
+    function directLoad() {
       const pageSrc = pages[current].src;
       const preloader = new Image();
       preloader.onload = function () {
@@ -127,14 +191,13 @@
         imgEl.alt = 'Seite konnte nicht geladen werden';
       };
       preloader.src = pageSrc;
-
       updateUI();
       showUI();
     }
 
     // Navigation
-    function goNext() { if (current < pages.length - 1) loadPage(current + 1); }
-    function goPrev() { if (current > 0) loadPage(current - 1); }
+    function goNext() { if (current < pages.length - 1) loadPage(current + 1, 'next'); }
+    function goPrev() { if (current > 0) loadPage(current - 1, 'prev'); }
 
     btnPrev.addEventListener('click', (e) => { e.stopPropagation(); goPrev(); showUI(); });
     btnNext.addEventListener('click', (e) => { e.stopPropagation(); goNext(); showUI(); });

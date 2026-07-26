@@ -196,11 +196,31 @@ a {
   max-height: 100%;
   object-fit: contain;
   pointer-events: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .reader-page img.loading {
   opacity: 0;
+}
+
+.reader-page img.slide-out-next {
+  opacity: 0;
+  transform: translateX(-15%);
+}
+
+.reader-page img.slide-out-prev {
+  opacity: 0;
+  transform: translateX(15%);
+}
+
+.reader-page img.slide-in-next {
+  opacity: 0;
+  transform: translateX(15%);
+}
+
+.reader-page img.slide-in-prev {
+  opacity: 0;
+  transform: translateX(-15%);
 }
 
 /* Tap zones */
