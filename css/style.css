@@ -52,8 +52,10 @@ a {
   gap: 16px;
   padding: 8px 16px 32px;
   max-width: 960px;
+  width: 100%;
   margin: 0 auto;
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
