@@ -61,7 +61,7 @@
       return;
     }
 
-    // Build page list: [front, page_1..page_N, back]
+    // Build page list: [front, page_1..page_N, (back)]
     const base = `data/comic_${comicId}`;
 
     const pages = [];
@@ -69,7 +69,12 @@
     for (let i = 1; i <= comic.pages; i++) {
       pages.push({ src: `${base}/page_${String(i).padStart(3, '0')}.jpg`, label: `Seite ${i}` });
     }
-    pages.push({ src: `${base}/back.jpg`, label: 'Back' });
+
+    const backSrc = `${base}/back.jpg`;
+    try {
+      const probe = await fetch(backSrc, { method: 'HEAD' });
+      if (probe.ok) pages.push({ src: backSrc, label: 'Back' });
+    } catch (_) {}
 
     let current = 0;
     let uiTimeout = null;
