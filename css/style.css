@@ -225,13 +225,15 @@ a {
 
 /* Tap zones */
 .reader-tap-left,
-.reader-tap-right {
+.reader-tap-right,
+.reader-tap-center {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 35%;
   z-index: 5;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .reader-tap-left {
@@ -243,13 +245,8 @@ a {
 }
 
 .reader-tap-center {
-  position: absolute;
-  top: 0;
-  bottom: 0;
   width: 30%;
   left: 35%;
-  z-index: 5;
-  cursor: pointer;
 }
 
 /* Bottom bar */
