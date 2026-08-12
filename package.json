@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npx http-server . -p 8080 -c-1",
     "build:www": "node scripts/build-www.js",
+    "import": "node scripts/import-comic.js",
     "cap:sync": "npm run build:www && npx cap sync",
     "cap:add": "npm run build:www && npx cap add android",
     "cap:open": "npx cap open android"

@@ -1,4 +1,4 @@
-# Comic App
+# Comic Schachtel
 
 Web-App zum Lesen von Comics, mit Android-Wrapper via Capacitor.
 
@@ -7,24 +7,48 @@ Web-App zum Lesen von Comics, mit Android-Wrapper via Capacitor.
 ## Struktur
 
 ```
-├── index.html              # Comic-Übersicht
-├── reader.html             # Reader-Ansicht
-├── css/style.css           # Styling
-├── js/app.js               # App-Logik
+├── start.html               # Startscreen (Vollbild, Klick → Bibliothek)
+├── start.png                # Startbild
+├── index.html               # Comic-Bibliothek
+├── reader.html              # Reader-Ansicht
+├── css/style.css            # Styling
+├── js/app.js                # App-Logik
 ├── data/
-│   ├── comics.json         # Metadaten aller Comics
-│   └── comic_1/            # Seiten (front.png, page_001.png, ..., back.png)
-├── scripts/build-www.js    # Build-Skript für www/
-├── capacitor.config.json   # Capacitor-Konfiguration
-└── android/                # Android-Projekt (generiert)
+│   ├── comics.json          # Metadaten aller Comics
+│   └── comic_1/             # Seiten (front.jpg, page_001.jpg, ..., back.jpg)
+├── scripts/
+│   ├── build-www.js         # Build-Skript für www/
+│   └── import-comic.js      # Comic-Import-Skript
+├── capacitor.config.json    # Capacitor-Konfiguration
+└── android/                 # Android-Projekt (generiert, gitignored)
 ```
 
 ## Comic hinzufügen
 
+### Automatisch (empfohlen)
+
+1. Bilder von Google Fotos in den Ordner `inbox/` herunterladen
+2. Import starten:
+
+```bash
+npm run import
+```
+
+Das Skript fragt nach Comic-Nr, Titel, Autor, Jahr, Genres sowie Front-/Back-Cover
+und erledigt dann automatisch:
+
+- Konvertierung PNG → JPG und Skalierung (max. 800px Breite, Qualität 80%)
+- Umbenennung (`front.jpg`, `page_001.jpg` bis `page_NNN.jpg`, `back.jpg`)
+- Verschiebung nach `data/comic_X/`
+- Aktualisierung von `data/comics.json`
+- Commit + Push nach GitHub
+
+### Manuell
+
 1. Ordner `data/comic_X/` anlegen mit:
-   - `front.png` – Cover
-   - `page_001.png` bis `page_NNN.png` – Seiten
-   - `back.png` – Rückseite
+   - `front.jpg` – Cover
+   - `page_001.jpg` bis `page_NNN.jpg` – Seiten
+   - `back.jpg` – Rückseite (optional)
 
 2. In `data/comics.json` einen Eintrag ergänzen:
    ```json
@@ -39,8 +63,8 @@ Web-App zum Lesen von Comics, mit Android-Wrapper via Capacitor.
    }
    ```
 
-   > Die Seitennummerierung ist 3-stellig nullgefüllt (`page_001.png`).
-   > PNG und JPG werden unterstützt.
+   > Die Seitennummerierung ist 3-stellig nullgefüllt (`page_001.jpg`).
+   > Nur JPG wird unterstützt.
 
 ## Web lokal starten
 
@@ -57,6 +81,7 @@ Dann http://localhost:8080 öffnen.
 - [Node.js](https://nodejs.org/) >= 18
 - [Android Studio](https://developer.android.com/studio)
 - Android SDK (in Android Studio unter SDK Manager installieren)
+- JDK 21 (Capacitor 8)
 
 ### Schritte
 
@@ -75,11 +100,16 @@ In Android Studio:
 1. **Build > Build Bundle(s) / APK(s) > Build APK(s)**
 2. APK liegt unter `android/app/build/outputs/apk/debug/app-debug.apk`
 
+Die App lädt alle Inhalte live von GitHub Pages (keine Comics in der APK).
+Der Startscreen (`start.html`) wird beim Start vollflächig angezeigt;
+ein Klick auf das Bild führt in die Comic-Bibliothek.
+
 ### NPM-Scripts
 
 | Command | Beschreibung |
 |---------|-------------|
 | `npm start` | lokaler Webserver auf Port 8080 |
 | `npm run build:www` | kopiert Web-Dateien nach `www/` |
+| `npm run import` | Comic-Import aus `inbox/` |
 | `npm run cap:sync` | baut `www/` + synchronisiert mit Android |
 | `npm run cap:open` | öffnet Android Studio |
