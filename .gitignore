@@ -1,5 +1,6 @@
 node_modules/
 android/
+inbox/
 www/
 .gradle/
 .idea/

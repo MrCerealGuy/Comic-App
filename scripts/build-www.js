@@ -4,7 +4,7 @@ const path = require('path');
 const WWW = path.join(__dirname, '..', 'www');
 const ROOT = path.join(__dirname, '..');
 
-const FILES = ['index.html', 'reader.html'];
+const FILES = ['start.html', 'index.html', 'reader.html'];
 const DIRS = ['css', 'js'];
 
 function copyDir(src, dest) {
