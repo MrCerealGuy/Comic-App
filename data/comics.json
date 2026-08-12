@@ -4,8 +4,11 @@
     "title": "Monnem Expendables",
     "author": "Christian Zahnleiter",
     "year": 2026,
-    "genres": ["Zombies", "Splatter"],
-	"pages": 45,
+    "genres": [
+      "Zombies",
+      "Splatter"
+    ],
+    "pages": 45,
     "available": true
   },
   {
@@ -13,8 +16,10 @@
     "title": "Cemetery Daily",
     "author": "Christian Zahnleiter",
     "year": 2026,
-    "genres": ["Dark Humor"],
-	"pages": 13,
+    "genres": [
+      "Dark Humor"
+    ],
+    "pages": 13,
     "available": true
   },
   {
@@ -22,8 +27,10 @@
     "title": "Jenseits der Stille",
     "author": "Christian Zahnleiter",
     "year": 2026,
-    "genres": ["Nachdenklich"],
-	"pages": 4,
+    "genres": [
+      "Nachdenklich"
+    ],
+    "pages": 4,
     "available": true
   }
 ]
